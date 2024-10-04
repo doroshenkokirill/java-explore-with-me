@@ -1,16 +1,17 @@
-package service.src.main.java.ru.practicum.controller;
+package ru.practicum.controller;
 
-import dto.src.main.java.ru.practicum.dto.HitDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import service.src.main.java.ru.practicum.service.HitService;
+import ru.practicum.dto.HitDto;
+import ru.practicum.dto.HitStatDto;
+import ru.practicum.service.HitService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
-public class HitController {
+public class HitsController {
     private final HitService hitServiceImpl;
 
     @PostMapping("/hit")

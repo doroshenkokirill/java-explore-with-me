@@ -1,8 +1,8 @@
-package service.src.main.java.ru.practicum.model;
+package ru.practicum.model;
 
-import dto.src.main.java.ru.practicum.dto.HitDto;
-import dto.src.main.java.ru.practicum.dto.HitStatDto;
 import lombok.experimental.UtilityClass;
+import ru.practicum.dto.HitDto;
+import ru.practicum.dto.HitStatDto;
 
 import java.sql.Timestamp;
 

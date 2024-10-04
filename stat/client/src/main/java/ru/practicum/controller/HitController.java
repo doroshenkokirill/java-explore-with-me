@@ -1,22 +1,22 @@
-package client.src.main.java.ru.practicum.controller;
+package ru.practicum.controller;
 
-import client.src.main.java.ru.practicum.client.HitClient;
-import dto.src.main.java.ru.practicum.dto.HitDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.client.HitClient;
+import ru.practicum.dto.HitDto;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping
+@RequestMapping(path = "/hits")
 public class HitController {
     private final HitClient hitClient;
 
     @GetMapping("/stats")
-    public String getStats(
+    public ResponseEntity<Object> getStats(
             @RequestParam String start,
             @RequestParam String end,
             @RequestParam(required = false) List<String> uris,

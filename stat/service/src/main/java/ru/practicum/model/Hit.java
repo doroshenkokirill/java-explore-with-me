@@ -1,4 +1,4 @@
-package service.src.main.java.ru.practicum.model;
+package ru.practicum.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
