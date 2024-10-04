@@ -1,13 +1,13 @@
 {
 	"info": {
-		"_postman_id": "0d26fe16-9d66-424c-b0ae-240940ad6989",
+		"_postman_id": "486e21d2-0307-4e83-b539-4af24ee49350",
 		"name": "Explore with me Tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "35193608"
 	},
 	"item": [
 		{
-			"name": "stat",
+			"name": "module 1 - stats",
 			"item": [
 				{
 					"name": "Create hit",
@@ -16,34 +16,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"const main = async () => {",
-									"    const api = new API(pm);",
-									"    const rnd = new RandomUtils();",
-									"",
-									"    try {",
-									"        user = rnd.getUser();",
-									"        pm.collectionVariables.set(\"userName\", user.name);",
-									"        pm.collectionVariables.set(\"userEmail\", user.email);",
-									"    } catch(err) {",
-									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);",
-									"    }",
-									"",
-									"};",
-									"",
-									"const interval = setInterval(() => {}, 1000);",
-									"",
-									"setTimeout(async () => ",
-									"    {",
-									"        try {",
-									"            await main();",
-									"        } catch (e) {",
-									"            console.error(e);",
-									"        } finally {",
-									"            clearInterval(interval);",
-									"        }",
-									"    },  ",
-									"    100 ",
-									");"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -55,10 +28,6 @@
 								"exec": [
 									"pm.test(\"Status code is 200 or 201\", function () {",
 									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
-									"});",
-									"pm.test(\"Response have body\", function () {",
-									"    pm.response.to.be.withBody;",
-									"    pm.response.to.be.json;",
 									"});",
 									""
 								],
@@ -72,7 +41,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"app\": \"ewm-main-service\",\n  \"uri\": \"/events/1\",\n  \"ip\": \"192.163.0.1\",\n  \"timestamp\": \"2022-09-06 11:00:23\"\n}",
+							"raw": "{\n\"app\": \"ewm-stat-srv\",\n\"uri\": \"/events/1\",\n\"ip\": \"192.163.0.1\",\n\"timestamp\": \"2022-09-06 11:00:23\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -80,7 +49,8 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/hit",
+							"raw": "http://localhost:8080/hit",
+							"protocol": "http",
 							"host": [
 								"localhost"
 							],
@@ -99,37 +69,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"const main = async () => {",
-									"    const api = new API(pm);",
-									"    const rnd = new RandomUtils();",
-									"",
-									"    try {",
-									"        user = rnd.getUser();",
-									"        us = await api.addUser(user);",
-									"        pm.collectionVariables.set(\"userId\", us.id);",
-									"        pm.collectionVariables.set(\"userName\", us.name);",
-									"        pm.collectionVariables.set(\"userEmail\", us.email);",
-									"",
-									"    } catch(err) {",
-									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);",
-									"    }",
-									"",
-									"};",
-									"",
-									"const interval = setInterval(() => {}, 1000);",
-									"",
-									"setTimeout(async () => ",
-									"    {",
-									"        try {",
-									"            await main();",
-									"        } catch (e) {",
-									"            console.error(e);",
-									"        } finally {",
-									"            clearInterval(interval);",
-									"        }",
-									"    },  ",
-									"    100 ",
-									");"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -146,23 +86,26 @@
 									"    pm.response.to.be.withBody;",
 									"    pm.response.to.be.json;",
 									"});",
-									"pm.test(\"Test user 'id' field\", function () {",
+									"",
+									"pm.test(\"Начилие поля 'app' в теле ответа\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.have.property('id');",
-									"    var id = pm.collectionVariables.get(\"userId\");",
-									"    pm.expect(jsonData.id, '\"id\" must be ' + id).to.eql(Number(id));",
+									"    pm.expect(jsonData).to.have.property('app');",
+									"    var app = pm.collectionVariables.get(\"app\");",
+									"    pm.expect(jsonData.app, '\"app\" must be ' + app).to.eql(Number(app));",
 									"});",
-									"pm.test(\"Test user 'email' field\", function () {",
+									"",
+									"pm.test(\"Наличие поля 'uri' в теле ответа\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.have.property('email');",
-									"    var email = pm.collectionVariables.get(\"userEmail\");",
-									"    pm.expect(jsonData.email, '\"email\" must be ' + email).to.eql(email);",
+									"    pm.expect(jsonData).to.have.property('uri');",
+									"    var uri = pm.collectionVariables.get(\"uri\");",
+									"    pm.expect(jsonData.uri, '\"uri\" must be ' + uri).to.eql(Number(uri));",
 									"});",
-									"pm.test(\"Test user 'name' field\", function () {",
+									"",
+									"pm.test(\"Наличие поля 'hits' в теле ответа\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.have.property('name');",
-									"    var name = pm.collectionVariables.get(\"userName\");",
-									"    pm.expect(jsonData.name, '\"name\" must be ' + name).to.eql(name);",
+									"    pm.expect(jsonData).to.have.property('hits');",
+									"    var hits = pm.collectionVariables.get(\"hits\");",
+									"    pm.expect(jsonData.hits, '\"hits\" must be ' + hits).to.eql(hits);",
 									"});",
 									""
 								],
@@ -179,7 +122,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "  {\n    \"app\": \"ewm-main-service\",\n    \"uri\": \"/events/1\",\n    \"hits\": 6\n  }",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -187,19 +130,41 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/stats",
+							"raw": "localhost:8080/stats?start=2022-09-06T11:00:23&end=2022-09-06T11:00:23&uris=/hits&unique=false",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"stats"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "2022-09-06T11:00:23"
+								},
+								{
+									"key": "end",
+									"value": "2022-09-06T11:00:23"
+								},
+								{
+									"key": "uris",
+									"value": "/hits"
+								},
+								{
+									"key": "unique",
+									"value": "false"
+								}
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "module 2 - main",
+			"item": []
 		}
 	]
 }
