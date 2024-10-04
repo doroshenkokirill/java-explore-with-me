@@ -9,12 +9,13 @@ import java.sql.Timestamp;
 @UtilityClass
 public class HitMapper {
     public static Hit toHit(HitDto hitDto) {
-        Hit hit = new Hit();
-        hit.setApp(hitDto.getApp());
-        hit.setUri(hitDto.getUri());
-        hit.setIp(hitDto.getIp());
-        hit.setTimestamp(Timestamp.valueOf(hitDto.getTimestamp()));
-        return hit;
+        return Hit.builder()
+                .id(hitDto.getId())
+                .uri(hitDto.getUri())
+                .app(hitDto.getApp())
+                .ip(hitDto.getIp())
+                .timestamp(Timestamp.valueOf(hitDto.getTimestamp()))
+                .build();
     }
 
     public static HitStatDto toHitStatDto(Hit hit) {

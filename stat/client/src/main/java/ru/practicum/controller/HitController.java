@@ -11,7 +11,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(path = "/hits")
+@RequestMapping
 public class HitController {
     private final HitClient hitClient;
 
