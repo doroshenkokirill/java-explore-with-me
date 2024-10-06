@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class HitDto {
-    private int id;
+    private Long id;
     private String app;
     private String uri;
     private String ip;

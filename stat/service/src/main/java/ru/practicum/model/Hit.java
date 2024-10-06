@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 public class Hit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String app;
 
@@ -25,5 +25,5 @@ public class Hit {
 
     private String ip;
 
-    private Timestamp timestamp;
+    private LocalDateTime timestamp;
 }

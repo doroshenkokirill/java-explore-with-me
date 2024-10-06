@@ -26,8 +26,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200 or 201\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.expect(pm.response.code).to.equal(201);",
 									"});",
 									""
 								],
@@ -41,7 +41,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"app\": \"ewm-stat-srv\",\n\"uri\": \"/events/1\",\n\"ip\": \"192.163.0.1\",\n\"timestamp\": \"2022-09-06 11:00:23\"\n}",
+							"raw": "{\n\"app\": \"ewm-stat-srv\",\n\"uri\": \"/hits\",\n\"ip\": \"192.163.0.1\",\n\"timestamp\": \"2022-09-06 11:00:23\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -87,7 +87,7 @@
 									"    pm.response.to.be.json;",
 									"});",
 									"",
-									"pm.test(\"Начилие поля 'app' в теле ответа\", function () {",
+									"pm.test(\"Наличие поля 'app' в теле ответа\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData).to.have.property('app');",
 									"    var app = pm.collectionVariables.get(\"app\");",
@@ -130,7 +130,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/stats?start=2022-09-06T11:00:23&end=2022-09-06T11:00:23&uris=/hits&unique=false",
+							"raw": "localhost:8080/stats?start=2022-09-05 11:00:23&end=2022-09-07 11:00:23&uris=/hits&unique=false",
 							"host": [
 								"localhost"
 							],
@@ -141,11 +141,11 @@
 							"query": [
 								{
 									"key": "start",
-									"value": "2022-09-06T11:00:23"
+									"value": "2022-09-05 11:00:23"
 								},
 								{
 									"key": "end",
-									"value": "2022-09-06T11:00:23"
+									"value": "2022-09-07 11:00:23"
 								},
 								{
 									"key": "uris",
