@@ -31,7 +31,10 @@ public class HitServiceImpl implements HitService {
         log.info("Start to getStats({}, {}, {})", uris, start, end);
         log.info("Base Hit: {}", hitRepository.findAll());
         List<HitStatDto> result;
-        if (unique != null && unique) {
+        if (uris == null || uris.isEmpty()) {
+            return new ArrayList<>();
+        }
+        if (unique) {
             log.info("Retrieving unique hits");
             result = hitRepository.findUniqueHits(start, end, uris);
         } else {
