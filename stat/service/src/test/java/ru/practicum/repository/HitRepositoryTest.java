@@ -67,7 +67,7 @@ public class HitRepositoryTest {
         List<Hit> savedHits = hitRepository.findAll();
         System.out.println("Saved Hits: " + savedHits);
 
-        List<HitStatDto> results = hitRepository.findAllHitsWhenStarEndUris(start, end, uris);
+        List<HitStatDto> results = hitRepository.findAllHits(start, end, uris);
         System.out.println("Query Results: " + Arrays.toString(results.toArray()));
 
         assertThat(results).isNotNull();
@@ -78,7 +78,7 @@ public class HitRepositoryTest {
     }
 
     @Test
-    public void testFindUniqueHitsTest() {
+    public void testFindUniqueHits() {
         hitRepository.deleteAll();
 
         hitRepository.save(hit);
@@ -88,7 +88,7 @@ public class HitRepositoryTest {
         List<Hit> savedHits = hitRepository.findAll();
         System.out.println("Saved Hits: " + savedHits);
 
-        List<HitStatDto> results = hitRepository.findAllHitsWhenStarEndUris(start, end, uris);
+        List<HitStatDto> results = hitRepository.findUniqueHits(start, end, uris);
         System.out.println("Query Results: " + Arrays.toString(results.toArray()));
 
         assertThat(results).isNotNull();
@@ -98,7 +98,7 @@ public class HitRepositoryTest {
         assertThat(results.getFirst().getUri()).isEqualTo("/hits");
 
         List<String> uris = List.of("/123");
-        List<HitStatDto> results2 = hitRepository.findAllUniqueHitsWhenUriIsNotEmpty(start, end, uris);
+        List<HitStatDto> results2 = hitRepository.findUniqueHits(start, end, uris);
         System.out.println("Query Results: " + Arrays.toString(results2.toArray()));
 
         assertThat(results2).isNotNull();

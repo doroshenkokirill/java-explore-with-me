@@ -16,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HitsController {
     private final HitService hitServiceImpl;
+    private static final String formatForString = "yyyy-MM-dd HH:mm:ss";
 
     @PostMapping("/hit")
     @ResponseStatus(HttpStatus.CREATED)
@@ -25,10 +26,10 @@ public class HitsController {
 
     @GetMapping("/stats")
     @ResponseStatus(HttpStatus.OK)
-    public List<HitStatDto> getStats(@RequestParam("start") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
-                                     @RequestParam("end") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
-                                     @RequestParam(value = "uris", required = false) List<String> uris,
-                                     @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
+    public List<HitStatDto> getStats(@DateTimeFormat(pattern = formatForString) LocalDateTime start,
+                                     @DateTimeFormat(pattern = formatForString) LocalDateTime end,
+                                     @RequestParam(required = false) List<String> uris,
+                                     @RequestParam(required = false) Boolean unique) {
         return hitServiceImpl.getStats(start, end, uris, unique);
     }
 }
