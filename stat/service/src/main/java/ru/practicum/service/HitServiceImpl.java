@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.practicum.dto.HitDto;
 import ru.practicum.dto.HitStatDto;
+import ru.practicum.exceptions.DataTimeException;
 import ru.practicum.model.Hit;
 import ru.practicum.model.HitMapper;
 import ru.practicum.repository.HitRepository;
@@ -29,17 +30,22 @@ public class HitServiceImpl implements HitService {
     @Override
     public List<HitStatDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         log.info("Start to getStats({}, {}, {})", uris, start, end);
-        log.info("Base Hit: {}", hitRepository.findAll());
-        List<HitStatDto> result;
-        if (uris == null || uris.isEmpty()) {
-            return new ArrayList<>();
+        if (end.isBefore(start)) {
+            throw new DataTimeException("Начало позже конца. Ошибка");
         }
+        List<HitStatDto> result;
         if (unique) {
-            log.info("Retrieving unique hits");
-            result = hitRepository.findUniqueHits(start, end, uris);
+            if (uris == null || uris.isEmpty()) {
+                result = hitRepository.findAllUniqueHitsWhenUriIsEmpty(start, end);
+            } else {
+                result = hitRepository.findAllUniqueHitsWhenUriIsNotEmpty(start, end, uris);
+            }
         } else {
-            log.info("Retrieving all hits");
-            result = hitRepository.findAllHits(start, end, uris);
+            if (uris == null || uris.isEmpty()) {
+                result = hitRepository.findAllHitsWhenUriIsEmpty(start, end);
+            } else {
+                result = hitRepository.findAllHitsWhenStarEndUris(start, end, uris);
+            }
         }
         return result;
     }
