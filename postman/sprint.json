@@ -130,7 +130,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/stats?start=2022-09-05 11:00:23&end=2022-09-07 11:00:23&uris=/hits&unique=false",
+							"raw": "localhost:8080/stats?start=2022-09-05T11:00:23&end=2022-09-07T11:00:23&uris=/hits&unique=false",
 							"host": [
 								"localhost"
 							],
@@ -141,11 +141,11 @@
 							"query": [
 								{
 									"key": "start",
-									"value": "2022-09-05 11:00:23"
+									"value": "2022-09-05T11:00:23"
 								},
 								{
 									"key": "end",
-									"value": "2022-09-07 11:00:23"
+									"value": "2022-09-07T11:00:23"
 								},
 								{
 									"key": "uris",
@@ -154,6 +154,79 @@
 								{
 									"key": "unique",
 									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get stats with bad request",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.be.badRequest;",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/stats?start=2023-09-05T11:00:23&end=2022-09-07T11:00:23&uris=/hits&unique=true",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stats"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "2023-09-05T11:00:23"
+								},
+								{
+									"key": "end",
+									"value": "2022-09-07T11:00:23"
+								},
+								{
+									"key": "uris",
+									"value": "/hits"
+								},
+								{
+									"key": "unique",
+									"value": "true"
 								}
 							]
 						}
