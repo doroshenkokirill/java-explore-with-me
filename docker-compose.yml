@@ -1,50 +1,28 @@
 services:
-  stats-server:
-    build: ./stat/service/
-    image: java-explore-with-me-stat-srv
-    ports:
-      - "9090:9090"
-    depends_on:
-      - stats-db
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stat_db
-      - SPRING_DATASOURCE_USERNAME=username
-      - SPRING_DATASOURCE_PASSWORD=password
-
-  stats-db:
-    image: postgres:16.1
-    environment:
-      - POSTGRES_DB=stat_db
-      - POSTGRES_USER=username
-      - POSTGRES_PASSWORD=password
-    ports:
-      - "5432:5432"
-    volumes:
-      - stats-db-data:/var/lib/postgresql/data
-
-  ewm-service:
-    build: ./path/stat/service
-    image: java-explore-with-me-ewm-srv
+  server:
+    build: stat/service
+    image: stat-service
+    container_name: stat
     ports:
       - "8080:8080"
     depends_on:
-      - ewm-db
+      - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewm_db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ewm
       - SPRING_DATASOURCE_USERNAME=username
       - SPRING_DATASOURCE_PASSWORD=password
 
-  ewm-db:
+  db:
     image: postgres:16.1
-    environment:
-      - POSTGRES_DB=ewm_db
-      - POSTGRES_USER=username
-      - POSTGRES_PASSWORD=password
+    container_name: postgres
     ports:
-      - "5433:5432"
-    volumes:
-      - ewm-db-data:/var/lib/postgresql/data
-
-volumes:
-  stats-db-data:
-  ewm-db-data:
+      - "6541:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+      - POSTGRES_DB=ewm
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -q -d $POSTGRES_DB -U $POSTGRES_USER"]
+      timeout: 5s
+      interval: 5s
+      retries: 10

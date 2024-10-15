@@ -10,7 +10,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<name>Explore With Me</name>
+	<name>explore-with-me</name>
 	<modules>
 		<module>stat</module>
 		<module>main</module>
