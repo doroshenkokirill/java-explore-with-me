@@ -1,6 +1,6 @@
 services:
   stats-server:
-    build: ./java-explore-with-me/stat/stat-server
+    build: ./stat/server
     image: java-explore-with-me-stat-srv
     ports:
       - "9090:9090"
