@@ -1,6 +1,6 @@
 services:
   stats-server:
-    build: ./ewm-stat-service/stat-server
+    build: ./java-explore-with-me/stat/stat-server
     image: java-explore-with-me-stat-srv
     ports:
       - "9090:9090"
@@ -38,8 +38,8 @@ services:
     image: postgres:16.1
     environment:
       - POSTGRES_DB=ewm_db
-      - POSTGRES_USER=your_username
-      - POSTGRES_PASSWORD=your_password
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
     ports:
       - "5433:5432"
     volumes:
