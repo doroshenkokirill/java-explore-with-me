@@ -7,6 +7,7 @@ import ru.practicum.model.Hit;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface HitRepository extends JpaRepository<Hit, Integer> {
 
@@ -24,7 +25,7 @@ public interface HitRepository extends JpaRepository<Hit, Integer> {
             + "GROUP BY h.app, h.uri "
             + "ORDER BY COUNT (DISTINCT h.ip) DESC ")
     List<HitStatDto> findAllUniqueHitsWhenUriIsNotEmpty(
-            LocalDateTime start, LocalDateTime end, List<String> uris);
+            LocalDateTime start, LocalDateTime end, Set<String> uris);
 
     @Query("SELECT new ru.practicum.dto.HitStatDto(h.app, h.uri, COUNT (h.ip))" +
             "FROM Hit h " +
@@ -39,5 +40,5 @@ public interface HitRepository extends JpaRepository<Hit, Integer> {
             + "AND h.uri in (:uris)"
             + "GROUP BY h.app, h.uri "
             + "ORDER BY COUNT (h.ip) DESC ")
-    List<HitStatDto> findAllHitsWhenStarEndUris(LocalDateTime start, LocalDateTime end, List<String> uris);
+    List<HitStatDto> findAllHitsWhenStarEndUris(LocalDateTime start, LocalDateTime end, Set<String> uris);
 }

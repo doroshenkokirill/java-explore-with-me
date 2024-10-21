@@ -29,10 +29,11 @@ public class HitClient extends BaseClient {
     }
 
     public ResponseEntity<Object> getStats(String start, String end, List<String> uris, Boolean unique) {
+        String urisParam = uris != null && !uris.isEmpty() ? String.join(",", uris) : "";
         Map<String, Object> parameters = Map.of(
                 "start", start,
                 "end", end,
-                "uris", uris != null ? uris : List.of(),
+                "uris", urisParam,
                 "unique", unique
         );
 

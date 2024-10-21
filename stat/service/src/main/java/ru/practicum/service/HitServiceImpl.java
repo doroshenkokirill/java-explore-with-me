@@ -28,7 +28,7 @@ public class HitServiceImpl implements HitService {
     }
 
     @Override
-    public List<HitStatDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+    public List<HitStatDto> getStats(LocalDateTime start, LocalDateTime end, Set<String> uris, Boolean unique) {
         log.info("Start to getStats({}, {}, {})", uris, start, end);
         if (end.isBefore(start)) {
             throw new DataTimeException("Начало позже конца. Ошибка");

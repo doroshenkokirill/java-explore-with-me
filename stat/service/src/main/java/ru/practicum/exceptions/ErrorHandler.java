@@ -13,6 +13,14 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse errorBadRequest(final DataTimeException e) {
+        log.debug("Получен статус 400 Bad request {}", e.getMessage(), e);
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse errorInternal(final Exception e) {
+        log.debug("Получен статус 500 Internal error {}", e.getMessage(), e);
         return new ErrorResponse(e.getMessage());
     }
 }
