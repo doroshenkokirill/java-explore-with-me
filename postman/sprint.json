@@ -232,6 +232,79 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get stats with internal server error",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {",
+									"    pm.response.to.be.serverError;",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/stats?start=123&end=123&uris=/hits&unique=true",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stats"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "123"
+								},
+								{
+									"key": "end",
+									"value": "123"
+								},
+								{
+									"key": "uris",
+									"value": "/hits"
+								},
+								{
+									"key": "unique",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
