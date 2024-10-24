@@ -6,12 +6,20 @@
     <parent>
         <groupId>ru.practicum</groupId>
         <artifactId>stat</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${stat.version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>service</artifactId>
-
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>ru.practicum</groupId>
+                <artifactId>stat</artifactId>
+                <version>${stat.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>

@@ -6,10 +6,12 @@
     <parent>
         <groupId>ru.practicum</groupId>
         <artifactId>explore-with-me</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>stat</artifactId>
+    <version>${stat.version}</version>
 
     <modules>
         <module>service</module>
@@ -23,6 +25,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <stat.version>1.1</stat.version>
     </properties>
 
     <dependencies>
