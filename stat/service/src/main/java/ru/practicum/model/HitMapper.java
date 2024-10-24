@@ -3,8 +3,6 @@ package ru.practicum.model;
 import lombok.experimental.UtilityClass;
 import ru.practicum.dto.HitDto;
 
-import java.time.LocalDateTime;
-
 @UtilityClass
 public class HitMapper {
 
