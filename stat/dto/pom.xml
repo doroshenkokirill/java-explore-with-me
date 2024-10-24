@@ -24,11 +24,6 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>com.jwebmp.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>0.63.0.19</version>
-        </dependency>
     </dependencies>
 
 </project>
