@@ -6,7 +6,7 @@
     <parent>
         <groupId>ru.practicum</groupId>
         <artifactId>stat</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${project.version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

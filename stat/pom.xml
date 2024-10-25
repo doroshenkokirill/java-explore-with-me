@@ -6,10 +6,11 @@
     <parent>
         <groupId>ru.practicum</groupId>
         <artifactId>explore-with-me</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${project.version}</version>
     </parent>
 
     <artifactId>stat</artifactId>
+    <version>${project.version}</version>
 
     <modules>
         <module>service</module>
