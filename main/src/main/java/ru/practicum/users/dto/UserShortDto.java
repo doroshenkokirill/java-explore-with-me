@@ -7,8 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class UserDto {
+public class UserShortDto {
     private Integer id;
     private String name;
-    private String email;
 }
