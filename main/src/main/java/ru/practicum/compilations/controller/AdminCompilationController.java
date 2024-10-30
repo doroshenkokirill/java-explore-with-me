@@ -7,14 +7,13 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.compilations.dto.CompilationDto;
 import ru.practicum.compilations.dto.NewCompilationDto;
 import ru.practicum.compilations.dto.UpdateCompilationRequest;
-import ru.practicum.compilations.service.AdminCompilationServiceImpl;
-
+import ru.practicum.compilations.service.AdminCompilationService;
 
 @RestController
 @RequestMapping(path = "/admin/compilations")
 @RequiredArgsConstructor
 public class AdminCompilationController {
-    private final AdminCompilationServiceImpl adminCompilationService;
+    private final AdminCompilationService adminCompilationService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
