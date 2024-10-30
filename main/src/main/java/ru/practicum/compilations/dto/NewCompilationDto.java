@@ -1,5 +1,6 @@
 package ru.practicum.compilations.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.Set;
 public class NewCompilationDto {
     private Set<Integer> events;
 
-    private boolean pinned;
+    private Boolean pinned;
 
     @NotBlank(message = "Field title must not be blank")
     @Size(min = 1, max = 50, message = "Size of field title must be [1;50]")
