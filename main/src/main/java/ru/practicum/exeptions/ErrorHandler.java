@@ -10,17 +10,31 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class ErrorHandler {
 
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse errorBadRequest(final DataTimeException e) {
-//        log.debug("Получен статус 400 Bad request {}", e.getMessage(), e);
-//        return new ErrorResponse(e.getMessage());
-//    }
-//
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//    public ErrorResponse errorInternal(final Exception e) {
-//        log.debug("Получен статус 500 Internal error {}", e.getMessage(), e);
-//        return new ErrorResponse(e.getMessage());
-//    }
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse errorBadRequest(final BadRequestException e) {
+        log.debug("Получен статус 400 Bad request {}", e.getMessage(), e);
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleNotFoundException(final NotFoundException e) {
+        log.debug("Получен статус 404 Not found {}", e.getMessage(), e);
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse errorNotUnique(final NotUniqueException e) {
+        log.debug("Получен статус 409 Conflict {}", e.getMessage(), e);
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse errorInternal(final Exception e) {
+        log.debug("Получен статус 500 Internal error {}", e.getMessage(), e);
+        return new ErrorResponse(e.getMessage());
+    }
 }
