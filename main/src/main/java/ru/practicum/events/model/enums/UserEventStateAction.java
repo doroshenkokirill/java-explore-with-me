@@ -1,4 +1,4 @@
-package ru.practicum.events.model;
+package ru.practicum.events.model.enums;
 
 public enum UserEventStateAction {
     SEND_TO_REVIEW,
