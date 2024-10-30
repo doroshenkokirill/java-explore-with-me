@@ -37,4 +37,11 @@ public class ErrorHandler {
         log.debug("Получен статус 500 Internal error {}", e.getMessage(), e);
         return new ErrorResponse(e.getMessage());
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleConflictException(final ConflictException e) {
+        log.debug("Received status 409 CONFLICT {}", e.getMessage(), e);
+        return new ErrorResponse(e.getMessage());
+    }
 }
