@@ -1,13 +1,13 @@
 package ru.practicum.events.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import ru.practicum.events.model.enums.AdminEventStateAction;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
 @AllArgsConstructor
-public class UpdateEventAdminRequest {
+public class UpdateEventAdminRequest extends UpdateEventRequest {
     private AdminEventStateAction stateAction;
 }
