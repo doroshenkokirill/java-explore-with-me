@@ -19,7 +19,6 @@ import ru.practicum.exeptions.ConflictException;
 import ru.practicum.exeptions.NotFoundException;
 import ru.practicum.locations.model.LocationMapper;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

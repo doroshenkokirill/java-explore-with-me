@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import ru.practicum.categories.dto.CategoryDto;
 import ru.practicum.categories.model.Category;
 import ru.practicum.categories.model.CategoryMapper;

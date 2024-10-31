@@ -18,5 +18,5 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
             "AND (:categories IS NULL OR :#{#categories.isEmpty()} = true OR e.category.id IN :categories) " +
             "AND (e.eventDate BETWEEN :rangeStart AND :rangeEnd)")
     List<Event> findAllForAdmin(List<Integer> users, List<EventState> states, List<Integer> categories,
-                                LocalDateTime rangeStart, LocalDateTime  rangeEnd, PageRequest pageable);
+                                LocalDateTime rangeStart, LocalDateTime rangeEnd, PageRequest pageable);
 }

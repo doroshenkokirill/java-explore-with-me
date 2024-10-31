@@ -1,6 +1,8 @@
 package ru.practicum.events.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import ru.practicum.events.model.enums.UserEventStateAction;
 
 @EqualsAndHashCode(callSuper = true)
