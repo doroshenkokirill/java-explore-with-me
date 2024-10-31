@@ -6,23 +6,53 @@ services:
     ports:
       - "9090:9090"
     depends_on:
-      - db
+      - stat-db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ewm
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stat-db:5432/stat-db
       - SPRING_DATASOURCE_USERNAME=username
       - SPRING_DATASOURCE_PASSWORD=password
 
-  db:
+  stat-db:
     image: postgres:16.1
     container_name: postgres
     ports:
-      - "6541:5432"
+      - "5432:5432"
     environment:
-      - POSTGRES_DB=ewm
+      - POSTGRES_DB=stat-db
       - POSTGRES_USER=username
       - POSTGRES_PASSWORD=password
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -q -d ewm -U username"]
+      test: ["CMD-SHELL", "pg_isready -q -d stat-db -U username"]
+      timeout: 5s
+      interval: 5s
+      retries: 10
+
+  main:
+    build: main/
+    image: main-ewm
+    container_name: main
+    ports:
+      - "8080:8080"
+    depends_on:
+      - main-db
+      - stat-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/main-db
+      - SPRING_DATASOURCE_USERNAME=username
+      - SPRING_DATASOURCE_PASSWORD=password
+      - STAT-SERVICE_URL=http://stat-service:9090
+
+  main-db:
+    image: postgres:16.1
+    container_name: main-db
+    ports:
+      - "6541:5432"
+    environment:
+      - POSTGRES_DB=main-db
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -q -d main-db -U username" ]
       timeout: 5s
       interval: 5s
       retries: 10
