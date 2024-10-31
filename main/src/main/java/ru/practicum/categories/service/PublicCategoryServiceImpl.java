@@ -21,7 +21,6 @@ import java.util.Optional;
 public class PublicCategoryServiceImpl implements PublicCategoryService {
 
     private static final Logger log = LoggerFactory.getLogger(PublicCategoryServiceImpl.class);
-
     private final CategoryRepository categoryRepository;
 
     @Override

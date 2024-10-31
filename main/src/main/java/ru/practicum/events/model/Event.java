@@ -64,4 +64,6 @@ public class Event {
     private EventState state;
 
     private String title;
+
+    private Long views;
 }

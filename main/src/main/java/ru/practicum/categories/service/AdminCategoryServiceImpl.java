@@ -18,7 +18,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminCategoryServiceImpl implements AdminCategoryService {
     private static final Logger log = LoggerFactory.getLogger(AdminCategoryServiceImpl.class);
-
     private final CategoryRepository categoryRepository;
 
     @Override

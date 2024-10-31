@@ -19,7 +19,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFoundException(final NotFoundException e) {
+    public ErrorResponse errorNotFound(final NotFoundException e) {
         log.debug("Получен статус 404 Not found {}", e.getMessage(), e);
         return new ErrorResponse(e.getMessage());
     }
@@ -27,7 +27,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse errorNotUnique(final NotUniqueException e) {
-        log.debug("Получен статус 409 Conflict {}", e.getMessage(), e);
+        log.debug("Получен статус 409 Not Unique {}", e.getMessage(), e);
         return new ErrorResponse(e.getMessage());
     }
 
@@ -40,8 +40,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleConflictException(final ConflictException e) {
-        log.debug("Received status 409 CONFLICT {}", e.getMessage(), e);
+    public ErrorResponse errorConflict(final ConflictException e) {
+        log.debug("Получен статус 409 Conflict {}", e.getMessage(), e);
         return new ErrorResponse(e.getMessage());
     }
 }
