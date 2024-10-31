@@ -53,7 +53,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     }
 
     private void checkName(String name) {
-        if (!categoryRepository.existsByName(name)) {
+        if (categoryRepository.existsByName(name)) {
             log.info("Category with name {} already exists", name);
             throw new NotUniqueException("Name of category must be unique.");
         }

@@ -8,5 +8,5 @@ public interface PublicCategoryService {
 
     List<CategoryDto> getAllCategories(int from, int size);
 
-    CategoryDto getCategoryById(int catId);
+    CategoryDto getById(int catId);
 }

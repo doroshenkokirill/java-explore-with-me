@@ -34,7 +34,7 @@ public class PublicCategoryServiceImpl implements PublicCategoryService {
     }
 
     @Override
-    public CategoryDto getCategoryById(int catId) {
+    public CategoryDto getById(int catId) {
         Optional<Category> category = categoryRepository.findById(catId);
 
         if (category.isEmpty()) {

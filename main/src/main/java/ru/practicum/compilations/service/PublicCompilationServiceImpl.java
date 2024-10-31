@@ -23,7 +23,7 @@ public class PublicCompilationServiceImpl implements PublicCompilationService {
     public List<CompilationDto> getCompilations(Boolean pinned, int from, int size) {
         Pageable pageable = PageRequest.of(from / size, size);
         if (pinned == null) pinned = false;
-        List<Compilation> compilations = compilationRepository.findAllByIsPinned(pinned, pageable);
+        List<Compilation> compilations = compilationRepository.findAllByPinned(pinned, pageable);
 
         List<CompilationDto> result = compilations.stream()
                 .map(CompilationMapper::toCompilationDto)

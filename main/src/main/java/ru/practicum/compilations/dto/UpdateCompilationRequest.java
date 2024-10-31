@@ -17,6 +17,6 @@ public class UpdateCompilationRequest {
     private Boolean pinned;
 
     @NotBlank(message = "Field title must not be blank")
-    @Size(min = 1, max = 50, message = "Size of field name must be [1;50]")
+    @Size(min = 1, max = 50, message = "Size of field title must be [1;50]")
     private String title;
 }
