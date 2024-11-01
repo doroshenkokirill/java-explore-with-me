@@ -72,7 +72,7 @@ public class RequestServiceImpl implements RequestService {
         }
 
         Request request = Request.builder()
-                .created(LocalDateTime.now())
+                .created(LocalDateTime.now().withNano(0))
                 .event(event)
                 .requester(user)
                 .status(status)

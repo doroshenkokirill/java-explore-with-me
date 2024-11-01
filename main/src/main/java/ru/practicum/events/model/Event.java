@@ -65,5 +65,6 @@ public class Event {
 
     private String title;
 
+    @Transient
     private Long views;
 }

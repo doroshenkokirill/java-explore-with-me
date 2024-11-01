@@ -33,8 +33,8 @@ public class PublicEventServiceImpl implements PublicEventService {
             categories.forEach(id -> checkId(id, eventRepository));
         }
 
-        rangeStart = (rangeStart != null) ? rangeStart : LocalDateTime.MIN;
-        rangeEnd = (rangeEnd != null) ? rangeEnd : LocalDateTime.MAX;
+        rangeStart = (rangeStart != null) ? rangeStart : LocalDateTime.of(1990, 1, 1, 0, 0);
+        rangeEnd = (rangeEnd != null) ? rangeEnd : LocalDateTime.of(2200, 1, 1, 0, 0);
         Sort sortCriteria = "VIEWS".equalsIgnoreCase(sort)
                 ? Sort.by(Sort.Direction.DESC, "views")
                 : Sort.by(Sort.Direction.ASC, "eventDate");

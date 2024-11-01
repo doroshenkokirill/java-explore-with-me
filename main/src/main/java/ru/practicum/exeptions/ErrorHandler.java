@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 public class ErrorHandler {
+    //TODO rework error response
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -35,8 +36,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse errorInternal(final Exception e) {
-        log.debug("Получен статус 500 Internal error {}", e.getMessage(), e);
+    public ErrorResponse errorThrowable(final Throwable e) {
+        log.debug("Получен статус 500 Internal error {}. ", e.getMessage(), e);
         return new ErrorResponse(e.getMessage());
     }
 
@@ -49,14 +50,14 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
+    public ErrorResponse errorMethodArgumentNotValid(final MethodArgumentNotValidException e) {
         log.debug("Получен статус 400 Argument not valid {}", e.getMessage(), e);
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
+    public ErrorResponse errorMissingServletRequestParameter(final MissingServletRequestParameterException e) {
         log.debug("Получен статус 400 Missing Servlet request parameter {}", e.getMessage(), e);
         return new ErrorResponse(e.getMessage());
     }
