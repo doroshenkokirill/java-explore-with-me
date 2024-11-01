@@ -8,6 +8,7 @@ import ru.practicum.categories.model.Category;
 import ru.practicum.categories.repository.CategoryRepository;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.UpdateEventAdminRequest;
+import ru.practicum.events.locations.model.LocationMapper;
 import ru.practicum.events.model.Event;
 import ru.practicum.events.model.EventMapper;
 import ru.practicum.events.model.enums.AdminEventStateAction;
@@ -16,7 +17,6 @@ import ru.practicum.events.repository.EventRepository;
 import ru.practicum.exeptions.BadRequestException;
 import ru.practicum.exeptions.ConflictException;
 import ru.practicum.exeptions.NotFoundException;
-import ru.practicum.events.locations.model.LocationMapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
