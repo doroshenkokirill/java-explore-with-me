@@ -1,8 +1,7 @@
 package ru.practicum.events.service;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.categories.model.Category;
@@ -17,16 +16,16 @@ import ru.practicum.events.repository.EventRepository;
 import ru.practicum.exeptions.BadRequestException;
 import ru.practicum.exeptions.ConflictException;
 import ru.practicum.exeptions.NotFoundException;
-import ru.practicum.locations.model.LocationMapper;
+import ru.practicum.events.locations.model.LocationMapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AdminEventServiceImpl implements AdminEventService {
-    private static final Logger log = LoggerFactory.getLogger(AdminEventServiceImpl.class);
     private final EventRepository eventRepository;
     private final CategoryRepository categoryRepository;
 

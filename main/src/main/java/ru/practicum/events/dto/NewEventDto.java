@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import ru.practicum.locations.dto.LocationDto;
+import ru.practicum.events.locations.dto.LocationDto;
 
 import java.time.LocalDateTime;
 

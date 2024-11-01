@@ -2,6 +2,9 @@ package ru.practicum.events.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import ru.practicum.events.dto.EventFullDto;
@@ -26,7 +29,27 @@ public class PublicEventServiceImpl implements PublicEventService {
     public List<EventShortDto> getEventsList(String text, Set<Integer> categories, Boolean paid,
                                              LocalDateTime rangeStart, LocalDateTime rangeEnd,
                                              Boolean onlyAvailable, String sort, int from, int size) {
-        return List.of();
+        if (categories != null) {
+            categories.forEach(id -> checkId(id, eventRepository));
+        }
+
+        rangeStart = (rangeStart != null) ? rangeStart : LocalDateTime.MIN;
+        rangeEnd = (rangeEnd != null) ? rangeEnd : LocalDateTime.MAX;
+        Sort sortCriteria = "VIEWS".equalsIgnoreCase(sort)
+                ? Sort.by(Sort.Direction.DESC, "views")
+                : Sort.by(Sort.Direction.ASC, "eventDate");
+
+        Pageable pageable = PageRequest.of(from / size, size, sortCriteria);
+
+        List<Event> events = (text == null || text.isEmpty())
+                ? eventRepository.findAllWithoutText(categories, paid, rangeStart, rangeEnd, onlyAvailable, pageable)
+                : eventRepository.findAllWithText(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, pageable);
+
+        List<EventShortDto> result = events.stream()
+                .peek(event -> event.setViews(event.getViews()))
+                .map(EventMapper::toEventShortDto).toList();
+        log.info("Events list: {}", result);
+        return result;
     }
 
     @Override

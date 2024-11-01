@@ -1,10 +1,12 @@
 package ru.practicum.events.model;
 
 import lombok.experimental.UtilityClass;
+import ru.practicum.categories.model.Category;
 import ru.practicum.categories.model.CategoryMapper;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventShortDto;
-import ru.practicum.locations.model.LocationMapper;
+import ru.practicum.events.dto.NewEventDto;
+import ru.practicum.events.locations.model.LocationMapper;
 import ru.practicum.users.model.UserMapper;
 
 @UtilityClass
@@ -41,6 +43,20 @@ public class EventMapper {
                 .state(e.getState())
                 .title(e.getTitle())
                 .views(e.getViews())
+                .build();
+    }
+
+    public static Event toEventDto(NewEventDto e) {
+        return Event.builder()
+                .annotation(e.getAnnotation())
+                .category(Category.builder().id(e.getCategory()).build())
+                .description(e.getDescription())
+                .eventDate(e.getEventDate())
+                .location(LocationMapper.toLocation(e.getLocation()))
+                .paid(e.getPaid() != null ? e.getPaid() : false)
+                .participantLimit(e.getParticipantLimit() != null ? e.getParticipantLimit() : 0)
+                .requestModeration(e.getRequestModeration() != null ? e.getRequestModeration() : true)
+                .title(e.getTitle())
                 .build();
     }
 }

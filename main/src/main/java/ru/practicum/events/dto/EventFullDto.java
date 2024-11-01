@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import ru.practicum.categories.dto.CategoryDto;
 import ru.practicum.events.model.enums.EventState;
-import ru.practicum.locations.dto.LocationDto;
+import ru.practicum.events.locations.dto.LocationDto;
 import ru.practicum.users.dto.UserShortDto;
 
 import java.time.LocalDateTime;

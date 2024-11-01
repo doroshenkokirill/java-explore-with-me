@@ -1,7 +1,7 @@
-package ru.practicum.locations.model;
+package ru.practicum.events.locations.model;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.locations.dto.LocationDto;
+import ru.practicum.events.locations.dto.LocationDto;
 
 @UtilityClass
 public class LocationMapper {

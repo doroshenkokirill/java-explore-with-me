@@ -1,4 +1,4 @@
-package ru.practicum.locations.model;
+package ru.practicum.events.locations.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
