@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventShortDto;
 import ru.practicum.events.service.PublicEventService;
-import ru.practicum.client.HitClient;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class PublicEventController {
     private final PublicEventService eventService;
-    private final HitClient client; //TODO
 
     @GetMapping
     public List<EventShortDto> getEventsList(@RequestParam(required = false) String text,
