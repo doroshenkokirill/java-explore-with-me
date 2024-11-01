@@ -1,8 +1,8 @@
 services:
   server:
-    build: stat/service
-    image: stat-service
-    container_name: stat
+    build: stat/client
+    image: stat-client
+    container_name: client
     ports:
       - "9090:9090"
     depends_on:
@@ -40,7 +40,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/main-db
       - SPRING_DATASOURCE_USERNAME=username
       - SPRING_DATASOURCE_PASSWORD=password
-      - STAT-SERVICE_URL=http://stat-service:9090
+      - STAT-CLIENT_URL=http://stat-client:9090
 
   main-db:
     image: postgres:16.1
