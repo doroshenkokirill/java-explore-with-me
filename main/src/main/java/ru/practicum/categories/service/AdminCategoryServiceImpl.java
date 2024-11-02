@@ -50,6 +50,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
         if (category.isEmpty()) {
             throw new NotFoundException(String.format("Category with ID %d is not found", catId));
         }
+        checkName(categoryDto.getName());
         category.get().setName(categoryDto.getName());
         CategoryDto result = CategoryMapper.toCategoryDto(categoryRepository.save(category.get()));
         log.info("Category updated: {}", result);
