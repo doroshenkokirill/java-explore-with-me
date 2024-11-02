@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.events.model.Event;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -21,8 +22,11 @@ public class Compilation {
     private Integer id;
 
     @ManyToMany
-    @JoinTable(name = "comp_events")
-    private Set<Event> events;
+    @JoinTable(name = "comp_events", joinColumns = @JoinColumn(name = "compilation_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    @Builder.Default
+    private Set<Event> events = new HashSet<>();
 
     private Boolean pinned;
 
