@@ -34,6 +34,9 @@ public class AdminEventServiceImpl implements AdminEventService {
                                         LocalDateTime rangeStart, LocalDateTime rangeEnd, int from, int size) {
 
         log.info("Start checks");
+        rangeStart = (rangeStart != null) ? rangeStart : LocalDateTime.of(1990, 1, 1, 0, 0);
+        rangeEnd = (rangeEnd != null) ? rangeEnd : LocalDateTime.of(2200, 1, 1, 0, 0);
+
         if (categories != null) {
             categories.forEach(categoryId -> {
                 if (!categoryRepository.existsById(categoryId)) {
