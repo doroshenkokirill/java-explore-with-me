@@ -32,6 +32,7 @@ public class PublicEventController {
                                             HttpServletRequest request) {
         return eventService.getEventsList(text, categories, paid, rangeStart, rangeEnd,
                 onlyAvailable, sort, from, size);
+        //TODO
     }
 
     @GetMapping("/{id}")
