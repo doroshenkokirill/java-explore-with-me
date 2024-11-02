@@ -17,10 +17,13 @@ import ru.practicum.events.repository.EventRepository;
 import ru.practicum.exeptions.BadRequestException;
 import ru.practicum.exeptions.ConflictException;
 import ru.practicum.exeptions.NotFoundException;
+import ru.practicum.dto.HitStatDto;
+import ru.practicum.service.HitService;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -28,6 +31,7 @@ import java.util.Optional;
 public class AdminEventServiceImpl implements AdminEventService {
     private final EventRepository eventRepository;
     private final CategoryRepository categoryRepository;
+    private final HitService service;
 
     @Override
     public List<EventFullDto> getEvents(List<Integer> users, List<EventState> states, List<Integer> categories,
@@ -49,7 +53,9 @@ public class AdminEventServiceImpl implements AdminEventService {
         PageRequest pageable = PageRequest.of(from / size, size);
         List<Event> events = eventRepository.findAllForAdmin(users, states, categories, rangeStart, rangeEnd, pageable);
 
-        List<EventFullDto> result = events.stream().map(EventMapper::toEventFullDto).toList();
+        List<EventFullDto> result = events.stream()
+                .map(this::convertToEventFullDtoWithViews)
+                .toList();
         log.info("Get events: {}", result);
         return result;
     }
@@ -117,5 +123,23 @@ public class AdminEventServiceImpl implements AdminEventService {
         }
         event.setEventDate(newEventDate);
         log.info("Updated event date: {}", event);
+    }
+
+    private EventFullDto convertToEventFullDtoWithViews(Event event) {
+        Long views = getViews(event);
+        event.setViews(views);
+        return EventMapper.toEventFullDto(event);
+    }
+
+    private Long getViews(Event event) {
+        String uris = "/events/" + event.getId();
+        LocalDateTime start = event.getPublishedOn() != null ? event.getPublishedOn() : event.getCreatedOn();
+        LocalDateTime end = LocalDateTime.now();
+
+        return service.getStats(start, end, Set.of(uris), true)
+                .stream()
+                .findFirst()
+                .map(HitStatDto::getHits)
+                .orElse(0L);
     }
 }

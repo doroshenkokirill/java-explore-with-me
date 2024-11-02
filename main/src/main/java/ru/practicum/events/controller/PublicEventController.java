@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.client.HitClient;
+import ru.practicum.dto.HitDto;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventShortDto;
 import ru.practicum.events.service.PublicEventService;
@@ -18,6 +20,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class PublicEventController {
     private final PublicEventService eventService;
+    private final HitClient hitClient;
 
     @GetMapping
     public List<EventShortDto> getEventList(@RequestParam(required = false) String text,
@@ -30,9 +33,16 @@ public class PublicEventController {
                                             @RequestParam(defaultValue = "0") int from,
                                             @RequestParam(defaultValue = "10") @Positive int size,
                                             HttpServletRequest request) {
-        return eventService.getEventsList(text, categories, paid, rangeStart, rangeEnd,
+        List<EventShortDto> filteredEvents = eventService.getEventsList(text, categories, paid, rangeStart, rangeEnd,
                 onlyAvailable, sort, from, size);
-        //TODO
+
+        HitDto hit = HitDto.builder()
+                .timestamp(LocalDateTime.now())
+                .app("main-ewm")
+                .uri(request.getRequestURI())
+                .ip(request.getRemoteAddr()).build();
+        hitClient.addHit(hit);
+        return filteredEvents;
     }
 
     @GetMapping("/{id}")
