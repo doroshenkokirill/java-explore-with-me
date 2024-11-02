@@ -40,15 +40,14 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
 
     @Override
     public CategoryDto updateCategory(CategoryDto categoryDto, int catId) {
-        checkName(categoryDto.getName());
         Optional<Category> category = categoryRepository.findById(catId);
         if (category.isEmpty()) {
             throw new NotFoundException(String.format("Category with ID %d is not found", catId));
         }
         category.get().setName(categoryDto.getName());
-        CategoryDto categoryUpdated = CategoryMapper.toCategoryDto(categoryRepository.save(category.get()));
-        log.info("Category updated: {}", categoryUpdated);
-        return categoryUpdated;
+        CategoryDto result = CategoryMapper.toCategoryDto(categoryRepository.save(category.get()));
+        log.info("Category updated: {}", result);
+        return result;
     }
 
     private void checkName(String name) {
