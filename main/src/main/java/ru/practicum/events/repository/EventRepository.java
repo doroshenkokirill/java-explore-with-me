@@ -59,4 +59,6 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
                                 LocalDateTime rangeEnd,
                                 Boolean onlyAvailable,
                                 Pageable pageable);
+
+    boolean existsByCategoryId(int categoryId);
 }

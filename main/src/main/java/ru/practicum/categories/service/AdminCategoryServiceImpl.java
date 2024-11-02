@@ -8,6 +8,8 @@ import ru.practicum.categories.dto.NewCategoryDto;
 import ru.practicum.categories.model.Category;
 import ru.practicum.categories.model.CategoryMapper;
 import ru.practicum.categories.repository.CategoryRepository;
+import ru.practicum.events.repository.EventRepository;
+import ru.practicum.exeptions.ConflictException;
 import ru.practicum.exeptions.NotFoundException;
 import ru.practicum.exeptions.NotUniqueException;
 
@@ -18,14 +20,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminCategoryServiceImpl implements AdminCategoryService {
     private final CategoryRepository categoryRepository;
+    private final EventRepository eventRepository;
 
     @Override
     public CategoryDto createCategory(NewCategoryDto newCategoryDto) {
         checkName(newCategoryDto.getName());
         Category category = categoryRepository.save(CategoryMapper.toCategory(newCategoryDto));
-        CategoryDto categoryDto = CategoryMapper.toCategoryDto(category);
-        log.info("Category created: {}", categoryDto);
-        return categoryDto;
+        CategoryDto result = CategoryMapper.toCategoryDto(category);
+        log.info("Category created: {}", result);
+        return result;
     }
 
     @Override
@@ -33,6 +36,9 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
         if (!categoryRepository.existsById(catId)) {
             log.info("Category with id {} does not exist", catId);
             throw new NotUniqueException(String.format("Category with ID %d is not found", catId));
+        }
+        if (eventRepository.existsByCategoryId(catId)) {
+            throw new ConflictException(String.format("Category with ID %d cannot to delete", catId));
         }
         categoryRepository.deleteById(catId);
         log.info("Category with id {} deleted", catId);
