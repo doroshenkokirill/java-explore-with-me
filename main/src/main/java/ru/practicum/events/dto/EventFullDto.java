@@ -26,13 +26,13 @@ public class EventFullDto {
 
     private Integer confirmedRequests;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdOn;
 
     private String description;
 
     @NotNull(message = "Event date is required.")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
 
     private Integer id;
@@ -49,7 +49,7 @@ public class EventFullDto {
     @JsonProperty(defaultValue = "0")
     private Integer participantLimit;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime publishedOn;
 
     @JsonProperty(defaultValue = "true")

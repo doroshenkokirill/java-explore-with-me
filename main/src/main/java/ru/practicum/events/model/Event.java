@@ -23,32 +23,34 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "annotation")
+    @Column(name = "annotation", nullable = false)
     private String annotation;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @Column(name = "confirmed_requests")
     private Integer confirmedRequests;
 
-    @Column(name = "created_on")
+    @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
 
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "event_date")
+    @Column(name = "event_date", nullable = false)
     private LocalDateTime eventDate;
 
     @ManyToOne
-    @JoinColumn(name = "initiator_id")
+    @JoinColumn(name = "initiator_id", nullable = false)
     private User initiator;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "location_id")
     private Location location;
 
+    @Column(name = "paid", nullable = false)
     private Boolean paid;
 
     @Column(name = "participant_limit")
@@ -57,12 +59,14 @@ public class Event {
     @Column(name = "published_on")
     private LocalDateTime publishedOn;
 
-    @Column(name = "request_moderation")
+    @Column(name = "request_moderation", nullable = false)
     private Boolean requestModeration;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private EventState state;
 
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Transient

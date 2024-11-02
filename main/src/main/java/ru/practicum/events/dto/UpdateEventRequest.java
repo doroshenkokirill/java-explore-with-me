@@ -1,6 +1,7 @@
 package ru.practicum.events.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,9 +28,9 @@ public class UpdateEventRequest {
     private LocalDateTime eventDate;
 
     private LocationDto location;
-
     private Boolean paid;
 
+    @PositiveOrZero(message = "Participants limit should not be negative.")
     private Integer participantLimit;
 
     private Boolean requestModeration;

@@ -1,5 +1,6 @@
 package ru.practicum.categories.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class CategoryDto {
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int id;
 
     @NotBlank(message = "Category name must not be blank")

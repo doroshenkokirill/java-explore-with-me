@@ -1,5 +1,7 @@
 package ru.practicum.events.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -18,16 +20,16 @@ public class PublicEventController {
     private final PublicEventService eventService;
 
     @GetMapping
-    public List<EventShortDto> getEventsList(@RequestParam(required = false) String text,
-                                             @RequestParam(required = false) Set<Integer> categories,
-                                             @RequestParam(required = false) Boolean paid,
-                                             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
-                                             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
-                                             @RequestParam(defaultValue = "false") Boolean onlyAvailable,
-                                             @RequestParam(required = false) String sort,
-                                             @RequestParam(defaultValue = "0") int from,
-                                             @RequestParam(defaultValue = "10") int size
-    ) {
+    public List<EventShortDto> getEventList(@RequestParam(required = false) String text,
+                                            @RequestParam(required = false) Set<Integer> categories,
+                                            @RequestParam(required = false) Boolean paid,
+                                            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
+                                            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
+                                            @RequestParam(defaultValue = "false") Boolean onlyAvailable,
+                                            @RequestParam(required = false) String sort,
+                                            @RequestParam(defaultValue = "0") int from,
+                                            @RequestParam(defaultValue = "10") @Positive int size,
+                                            HttpServletRequest request) {
         return eventService.getEventsList(text, categories, paid, rangeStart, rangeEnd,
                 onlyAvailable, sort, from, size);
     }
