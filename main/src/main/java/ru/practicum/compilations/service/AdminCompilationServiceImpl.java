@@ -31,7 +31,9 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
                 .filter(eventIds -> !eventIds.isEmpty())
                 .map(eventRepository::findAllById)
                 .orElse(Collections.emptyList());
-
+        if (newCompilationDto.getPinned() == null) {
+            newCompilationDto.setPinned(false);
+        }
         Compilation compilation = Compilation.builder()
                 .pinned(newCompilationDto.getPinned())
                 .title(newCompilationDto.getTitle())
