@@ -14,7 +14,6 @@ import ru.practicum.events.model.Event;
 import ru.practicum.events.model.EventMapper;
 import ru.practicum.events.model.enums.EventState;
 import ru.practicum.events.repository.EventRepository;
-import ru.practicum.exeptions.BadRequestException;
 import ru.practicum.exeptions.NotFoundException;
 
 import java.time.LocalDateTime;
