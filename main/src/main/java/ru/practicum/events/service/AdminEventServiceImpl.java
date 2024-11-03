@@ -3,9 +3,11 @@ package ru.practicum.events.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.practicum.categories.model.Category;
 import ru.practicum.categories.repository.CategoryRepository;
+import ru.practicum.client.HitClient;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.UpdateEventAdminRequest;
 import ru.practicum.events.locations.model.LocationMapper;
@@ -18,9 +20,9 @@ import ru.practicum.exeptions.BadRequestException;
 import ru.practicum.exeptions.ConflictException;
 import ru.practicum.exeptions.NotFoundException;
 import ru.practicum.dto.HitStatDto;
-import ru.practicum.service.HitService;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -31,7 +33,7 @@ import java.util.Set;
 public class AdminEventServiceImpl implements AdminEventService {
     private final EventRepository eventRepository;
     private final CategoryRepository categoryRepository;
-    private final HitService service;
+    private final HitClient hitClient;
 
     @Override
     public List<EventFullDto> getEvents(List<Integer> users, List<EventState> states, List<Integer> categories,
@@ -135,11 +137,20 @@ public class AdminEventServiceImpl implements AdminEventService {
         String uris = "/events/" + event.getId();
         LocalDateTime start = event.getPublishedOn() != null ? event.getPublishedOn() : event.getCreatedOn();
         LocalDateTime end = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String startFormatted = start.format(formatter);
+        String endFormatted = end.format(formatter);
 
-        return service.getStats(start, end, Set.of(uris), true)
-                .stream()
-                .findFirst()
-                .map(HitStatDto::getHits)
-                .orElse(0L);
+        ResponseEntity<Object> response = hitClient.getStats(startFormatted, endFormatted, List.of(uris), true);
+
+        if (response.getBody() instanceof List<?>) {
+            return ((List<?>) response.getBody()).stream()
+                    .filter(HitStatDto.class::isInstance)
+                    .map(HitStatDto.class::cast)
+                    .findFirst()
+                    .map(HitStatDto::getHits)
+                    .orElse(0L);
+        }
+        return 0L;
     }
 }
