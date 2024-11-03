@@ -42,7 +42,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/main-db
       - SPRING_DATASOURCE_USERNAME=username
       - SPRING_DATASOURCE_PASSWORD=password
-      - STAT-SERVICE_URL=http://stat-service:9090
+      - stat-service.url=http://stat-service:9090
 
   main-db:
     image: postgres:16.1

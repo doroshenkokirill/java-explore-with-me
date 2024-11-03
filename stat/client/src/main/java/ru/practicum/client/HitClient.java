@@ -15,7 +15,7 @@ import java.util.Map;
 @Service
 public class HitClient extends BaseClient {
     @Autowired
-    public HitClient(@Value("${explorewithme-server.url}") String serverUrl, RestTemplateBuilder builder) {
+    public HitClient(@Value("${stat-service}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
                         .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))

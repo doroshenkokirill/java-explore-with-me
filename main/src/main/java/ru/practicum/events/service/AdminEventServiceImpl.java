@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.categories.model.Category;
 import ru.practicum.categories.repository.CategoryRepository;
 import ru.practicum.client.HitClient;
+import ru.practicum.dto.HitStatDto;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.UpdateEventAdminRequest;
 import ru.practicum.events.locations.model.LocationMapper;
@@ -19,13 +20,11 @@ import ru.practicum.events.repository.EventRepository;
 import ru.practicum.exeptions.BadRequestException;
 import ru.practicum.exeptions.ConflictException;
 import ru.practicum.exeptions.NotFoundException;
-import ru.practicum.dto.HitStatDto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Slf4j
 @Service
