@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.client.HitClient;
+import ru.practicum.client.HitClientImpl;
 import ru.practicum.dto.HitDto;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventShortDto;
@@ -20,7 +20,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class PublicEventController {
     private final PublicEventService eventService;
-    private final HitClient hitClient;
+    private final HitClientImpl hitClient;
 
     @GetMapping
     public List<EventShortDto> getEventList(@RequestParam(required = false) String text,

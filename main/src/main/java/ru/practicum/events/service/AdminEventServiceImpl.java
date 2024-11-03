@@ -3,11 +3,10 @@ package ru.practicum.events.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.practicum.categories.model.Category;
 import ru.practicum.categories.repository.CategoryRepository;
-import ru.practicum.client.HitClient;
+import ru.practicum.client.HitClientImpl;
 import ru.practicum.dto.HitStatDto;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.UpdateEventAdminRequest;
@@ -32,7 +31,7 @@ import java.util.Optional;
 public class AdminEventServiceImpl implements AdminEventService {
     private final EventRepository eventRepository;
     private final CategoryRepository categoryRepository;
-    private final HitClient hitClient;
+    private final HitClientImpl hitClient;
 
     @Override
     public List<EventFullDto> getEvents(List<Integer> users, List<EventState> states, List<Integer> categories,
@@ -114,6 +113,7 @@ public class AdminEventServiceImpl implements AdminEventService {
         Optional.ofNullable(updateRequest.getParticipantLimit()).ifPresent(event::setParticipantLimit);
         Optional.ofNullable(updateRequest.getRequestModeration()).ifPresent(event::setRequestModeration);
         Optional.ofNullable(updateRequest.getTitle()).ifPresent(event::setTitle);
+        event.setViews(event.getViews() == null ? 1L : event.getViews() + 1L);
         log.info("End update event fields");
     }
 
@@ -140,16 +140,7 @@ public class AdminEventServiceImpl implements AdminEventService {
         String startFormatted = start.format(formatter);
         String endFormatted = end.format(formatter);
 
-        ResponseEntity<Object> response = hitClient.getStats(startFormatted, endFormatted, List.of(uris), true);
-
-        if (response.getBody() instanceof List<?>) {
-            return ((List<?>) response.getBody()).stream()
-                    .filter(HitStatDto.class::isInstance)
-                    .map(HitStatDto.class::cast)
-                    .findFirst()
-                    .map(HitStatDto::getHits)
-                    .orElse(0L);
-        }
-        return 0L;
+        List<HitStatDto> hitStatDtoList = hitClient.getStats(startFormatted, endFormatted, List.of(uris), true);
+        return hitStatDtoList.stream().findFirst().map(HitStatDto::getHits).orElse(0L);
     }
 }

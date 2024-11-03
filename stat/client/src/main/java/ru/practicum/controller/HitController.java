@@ -1,11 +1,11 @@
 package ru.practicum.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.client.HitClient;
+import ru.practicum.client.HitClientImpl;
 import ru.practicum.dto.HitDto;
+import ru.practicum.dto.HitStatDto;
 
 import java.util.List;
 
@@ -13,10 +13,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping
 public class HitController {
-    private final HitClient hitClient;
+    private final HitClientImpl hitClient;
 
     @GetMapping("/stats")
-    public ResponseEntity<Object> getStats(
+    public List<HitStatDto> getStats(
             @RequestParam String start,
             @RequestParam String end,
             @RequestParam(required = false) List<String> uris,
@@ -25,7 +25,7 @@ public class HitController {
     }
 
     @PostMapping("/hit")
-    public ResponseEntity<Object> addHit(@RequestBody HitDto hitDto) {
-        return hitClient.addHit(hitDto);
+    public void addHit(@RequestBody HitDto hitDto) {
+        hitClient.addHit(hitDto);
     }
 }
