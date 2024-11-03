@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import ru.practicum.categories.model.Category;
 import ru.practicum.categories.repository.CategoryRepository;
 import ru.practicum.client.HitClientImpl;
-import ru.practicum.dto.HitStatDto;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.UpdateEventAdminRequest;
 import ru.practicum.events.locations.model.LocationMapper;
@@ -21,7 +20,6 @@ import ru.practicum.exeptions.ConflictException;
 import ru.practicum.exeptions.NotFoundException;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -126,20 +124,8 @@ public class AdminEventServiceImpl implements AdminEventService {
     }
 
     private EventFullDto convertToEventFullDtoWithViews(Event event) {
-        Long views = getViews(event);
+        Long views = CommonEventService.getViews(event, hitClient);
         event.setViews(views);
         return EventMapper.toEventFullDto(event);
-    }
-
-    private Long getViews(Event event) {
-        String uris = "/events/" + event.getId();
-        LocalDateTime start = event.getPublishedOn() != null ? event.getPublishedOn() : event.getCreatedOn();
-        LocalDateTime end = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String startFormatted = start.format(formatter);
-        String endFormatted = end.format(formatter);
-
-        List<HitStatDto> hitStatDtoList = hitClient.getStats(startFormatted, endFormatted, List.of(uris), true);
-        return hitStatDtoList.stream().findFirst().map(HitStatDto::getHits).orElse(0L);
     }
 }
