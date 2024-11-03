@@ -11,7 +11,6 @@ import ru.practicum.model.HitMapper;
 import ru.practicum.repository.HitRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
