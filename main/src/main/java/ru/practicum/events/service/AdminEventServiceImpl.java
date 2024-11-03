@@ -113,7 +113,6 @@ public class AdminEventServiceImpl implements AdminEventService {
         Optional.ofNullable(updateRequest.getParticipantLimit()).ifPresent(event::setParticipantLimit);
         Optional.ofNullable(updateRequest.getRequestModeration()).ifPresent(event::setRequestModeration);
         Optional.ofNullable(updateRequest.getTitle()).ifPresent(event::setTitle);
-        event.setViews(event.getViews() == null ? 1L : event.getViews() + 1L);
         log.info("End update event fields");
     }
 

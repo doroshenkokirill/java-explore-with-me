@@ -8,15 +8,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import ru.practicum.categories.repository.CategoryRepository;
+import ru.practicum.client.HitClientImpl;
+import ru.practicum.dto.HitStatDto;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventShortDto;
 import ru.practicum.events.model.Event;
 import ru.practicum.events.model.EventMapper;
 import ru.practicum.events.model.enums.EventState;
 import ru.practicum.events.repository.EventRepository;
+import ru.practicum.exeptions.BadRequestException;
 import ru.practicum.exeptions.NotFoundException;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 
@@ -26,6 +30,7 @@ import java.util.Set;
 public class PublicEventServiceImpl implements PublicEventService {
     private final EventRepository eventRepository;
     private final CategoryRepository categoryRepository;
+    private final HitClientImpl hitClient;
 
     @Override
     public List<EventShortDto> getEventsList(String text, Set<Integer> categories, Boolean paid,
@@ -62,16 +67,31 @@ public class PublicEventServiceImpl implements PublicEventService {
         if (!event.getState().equals(EventState.PUBLISHED)) {
             throw new NotFoundException(String.format("There are no published events with id %d", id));
         }
-        //TODO
+        event.setViews(getViews(event) + 1);
         EventFullDto result = EventMapper.toEventFullDto(eventRepository.save(event));
         log.info("Result of get event by Id {}: {}", id, result);
         return result;
     }
 
     private void checkId(int id, JpaRepository<?, Integer> repository) {
+        if (id <= 0) {
+            throw new BadRequestException(String.format("Id %d must be > 0", id));
+        }
         if (!repository.existsById(id)) {
             log.info("Not found with id: {}", id);
             throw new NotFoundException("Not found with id " + id + " from: " + repository);
         }
+    }
+
+    private Long getViews(Event event) {
+        String uris = "/events/" + event.getId();
+        LocalDateTime start = event.getPublishedOn() != null ? event.getPublishedOn() : event.getCreatedOn();
+        LocalDateTime end = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String startFormatted = start.format(formatter);
+        String endFormatted = end.format(formatter);
+
+        List<HitStatDto> hitStatDtoList = hitClient.getStats(startFormatted, endFormatted, List.of(uris), true);
+        return hitStatDtoList.stream().findFirst().map(HitStatDto::getHits).orElse(0L);
     }
 }
