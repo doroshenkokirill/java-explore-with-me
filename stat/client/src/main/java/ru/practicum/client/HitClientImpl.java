@@ -7,8 +7,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.dto.HitDto;
 import ru.practicum.dto.HitStatDto;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component
@@ -38,8 +36,8 @@ public class HitClientImpl implements HitClient {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/stats")
-                        .queryParam("start", encodeValue(start))
-                        .queryParam("end", encodeValue(end))
+                        .queryParam("start", start)
+                        .queryParam("end", end)
                         .queryParam("uris", urisParam)
                         .queryParam("unique", uniqueParam)
                         .build())
@@ -47,10 +45,5 @@ public class HitClientImpl implements HitClient {
                 .bodyToFlux(HitStatDto.class)
                 .collectList()
                 .block();
-    }
-
-    private String encodeValue(String value) {
-        value = URLEncoder.encode(value, StandardCharsets.UTF_8);
-        return value;
     }
 }
