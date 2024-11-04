@@ -65,7 +65,7 @@ public class PublicEventServiceImpl implements PublicEventService {
         if (!event.getState().equals(EventState.PUBLISHED)) {
             throw new NotFoundException(String.format("There are no published events with id %d", id));
         }
-        event.setViews(CommonEventService.getViews(event, hitClient) + 1);
+        event.setViews(CommonEventService.getViews(event, hitClient));
         EventFullDto result = EventMapper.toEventFullDto(eventRepository.save(event));
         log.info("Result of get event by Id {}: {}", id, result);
         return result;
