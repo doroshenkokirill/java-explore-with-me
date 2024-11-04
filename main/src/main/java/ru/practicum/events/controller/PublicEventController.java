@@ -32,21 +32,28 @@ public class PublicEventController {
                                             @RequestParam(required = false) String sort,
                                             @RequestParam(defaultValue = "0") int from,
                                             @RequestParam(defaultValue = "10") @Positive int size,
-                                            HttpServletRequest request) {
+                                            HttpServletRequest httpServletRequest) {
         List<EventShortDto> filteredEvents = eventService.getEventsList(text, categories, paid, rangeStart, rangeEnd,
                 onlyAvailable, sort, from, size);
 
-        HitDto hit = HitDto.builder()
-                .timestamp(LocalDateTime.now())
-                .app("main-ewm")
-                .uri(request.getRequestURI())
-                .ip(request.getRemoteAddr()).build();
-        hitClient.addHit(hit);
+        addHit(httpServletRequest);
         return filteredEvents;
     }
 
     @GetMapping("/{id}")
-    public EventFullDto get(@PathVariable int id) {
-        return eventService.get(id);
+    public EventFullDto get(@PathVariable int id, HttpServletRequest httpServletRequest) {
+        EventFullDto result = eventService.get(id);
+        addHit(httpServletRequest);
+        return result;
+    }
+
+    private void addHit(HttpServletRequest httpServletRequest) {
+        HitDto hit = HitDto.builder()
+                .timestamp(LocalDateTime.now())
+                .app("main-ewm")
+                .uri(httpServletRequest.getRequestURI())
+                .ip(httpServletRequest.getRemoteAddr())
+                .build();
+        hitClient.addHit(hit);
     }
 }
