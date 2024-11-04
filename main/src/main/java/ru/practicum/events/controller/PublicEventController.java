@@ -41,8 +41,10 @@ public class PublicEventController {
     }
 
     @GetMapping("/{id}")
-    public EventFullDto get(@PathVariable int id) {
-        return eventService.get(id);
+    public EventFullDto get(@PathVariable int id, HttpServletRequest httpServletRequest) {
+        EventFullDto result = eventService.get(id);
+        addHit(httpServletRequest);
+        return result;
     }
 
     private void addHit(HttpServletRequest httpServletRequest) {
