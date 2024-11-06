@@ -1,5 +1,6 @@
 package ru.practicum.repository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ru.practicum.dto.HitStatDto;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+@Transactional
 public interface HitRepository extends JpaRepository<Hit, Integer> {
 
     @Query("SELECT new ru.practicum.dto.HitStatDto(h.app, h.uri, COUNT (DISTINCT h.ip)) " +
@@ -34,7 +36,7 @@ public interface HitRepository extends JpaRepository<Hit, Integer> {
             "ORDER BY COUNT (h.ip) DESC ")
     List<HitStatDto> findAllHitsWhenUriIsEmpty(LocalDateTime start, LocalDateTime end);
 
-    @Query("SELECT new ru.practicum.dto.HitStatDto(h.app, h.uri, count (h.ip)) "
+    @Query("SELECT new ru.practicum.dto.HitStatDto(h.app, h.uri, COUNT (h.ip)) "
             + "FROM Hit h "
             + "WHERE h.timestamp BETWEEN :start AND :end "
             + "AND h.uri in (:uris)"

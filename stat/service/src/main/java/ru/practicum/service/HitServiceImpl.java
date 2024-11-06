@@ -1,8 +1,7 @@
 package ru.practicum.service;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.dto.HitDto;
 import ru.practicum.dto.HitStatDto;
@@ -12,24 +11,25 @@ import ru.practicum.model.HitMapper;
 import ru.practicum.repository.HitRepository;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class HitServiceImpl implements HitService {
-    private static final Logger log = LoggerFactory.getLogger(HitServiceImpl.class);
     private final HitRepository hitRepository;
 
     @Override
     public void addHit(HitDto hitDto) {
         Hit hit = HitMapper.toHit(hitDto);
         hitRepository.save(hit);
-        log.info("Added hit: {}", hit);
+        log.info("All hits: {}", hitRepository.findAll());
     }
 
     @Override
     public List<HitStatDto> getStats(LocalDateTime start, LocalDateTime end, Set<String> uris, Boolean unique) {
-        log.info("Start to getStats({}, {}, {})", uris, start, end);
+        log.info("Start to getStats({}, {}, {}, {})", uris, start, end, unique);
         if (end.isBefore(start)) {
             throw new DataTimeException("Начало позже конца. Ошибка");
         }
@@ -47,6 +47,7 @@ public class HitServiceImpl implements HitService {
                 result = hitRepository.findAllHitsWhenStarEndUris(start, end, uris);
             }
         }
+        log.info("End to getStats {}", result);
         return result;
     }
 }
