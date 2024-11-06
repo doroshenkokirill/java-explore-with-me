@@ -61,4 +61,6 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
                                 Pageable pageable);
 
     boolean existsByCategoryId(int categoryId);
+
+    Event getEventById(int id);
 }
