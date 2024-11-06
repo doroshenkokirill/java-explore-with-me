@@ -29,6 +29,6 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse errorMissingServletRequestParameter(final MissingServletRequestParameterException e) {
         log.debug("Получен статус 400 Missing Servlet request parameter {}", e.getMessage(), e);
-        return new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required request parameter.",e.getMessage());
+        return new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required request parameter.", e.getMessage());
     }
 }

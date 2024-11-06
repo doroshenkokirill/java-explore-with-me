@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping(path = "/categories")
 @RequiredArgsConstructor
 public class PublicCategoryController {
-    public final PublicCategoryService publicCategoryService;
+    private final PublicCategoryService publicCategoryService;
 
     @GetMapping
     public List<CategoryDto> getAll(@RequestParam(defaultValue = "0") int from,
