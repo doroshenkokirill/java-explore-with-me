@@ -8,12 +8,12 @@ import ru.practicum.comments.service.PublicCommentService;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/admin/comments")
+@RequestMapping(path = "/events/")
 @RequiredArgsConstructor
 public class PublicCommentController {
     private final PublicCommentService publicCommentService;
 
-    @GetMapping("/events/{eventId}/comments")
+    @GetMapping("/{eventId}/comments")
     public List<CommentDto> getAllComments(@PathVariable int eventId,
                                            @RequestParam(defaultValue = "0") int from,
                                            @RequestParam(defaultValue = "10") int size) {
