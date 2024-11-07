@@ -45,15 +45,15 @@ public class PrivateCommentServiceImpl implements PrivateCommentService {
     }
 
     @Override
-    public CommentDto updateComment(int commentId, int userId, int eventId, CommentDto commentDto) {
+    public CommentDto updateComment(int eventId, int commentId, int userId, CommentDto commentDto) {
         checkId(commentId, commentRepository);
         checkId(userId, userRepository);
         checkId(eventId, eventRepository);
-        if (commentDto.getAuthorId() != userId) {
-            throw new ConflictException("User can`t update comment");
+        Comment commentToUpdate = commentRepository.findById(commentId);
+        if (commentToUpdate.getAuthor().getId() != userId) {
+            throw new ConflictException("This user with Id:" + userId + " can`t update comment");
         }
 
-        Comment commentToUpdate = commentRepository.findById(commentId);
         commentToUpdate.setText(commentDto.getText());
         commentToUpdate.setCommentDate(LocalDateTime.now());
         commentToUpdate.setEdited(true);
