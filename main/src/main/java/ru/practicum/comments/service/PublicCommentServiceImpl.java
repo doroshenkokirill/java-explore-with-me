@@ -9,7 +9,10 @@ import ru.practicum.comments.dto.CommentDto;
 import ru.practicum.comments.model.Comment;
 import ru.practicum.comments.model.CommentMapper;
 import ru.practicum.comments.repository.CommentRepository;
+import ru.practicum.events.repository.EventRepository;
+import ru.practicum.exeptions.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -17,14 +20,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PublicCommentServiceImpl implements PublicCommentService {
     private final CommentRepository commentRepository;
+    private final EventRepository eventRepository;
 
     @Override
-    public List<CommentDto> getAllComments(int eventId, int from, int size) {
+    public List<CommentDto> getComments(int eventId, int from, int size) {
+        if (!eventRepository.existsById(eventId)) {
+            throw new NotFoundException("Event with id " + eventId + " dont exists");
+        }
+
+        Pageable pageable = PageRequest.of(from / size, size);
+        List<Comment> commentList = commentRepository.findAll(pageable).stream().toList();
+        List<Comment> filteredList = new ArrayList<>();
+        for (Comment comment : commentList) {
+            if (comment.getEvent().getId() == eventId) {
+                filteredList.add(comment);
+            }
+        }
+        List<CommentDto> result = filteredList.stream().map(CommentMapper::toCommentDto).toList();
+        log.info("Founded {} comments for eventId {}", result.size(), eventId);
+        return result;
+    }
+
+    @Override
+    public List<CommentDto> getAllComments(int from, int size) {
         Pageable pageable = PageRequest.of(from / size, size);
         List<Comment> commentList = commentRepository.findAll(pageable).stream().toList();
 
         List<CommentDto> result = commentList.stream().map(CommentMapper::toCommentDto).toList();
-        log.info("Founded {} comments for eventId {}", result.size(), eventId);
+        log.info("Founded {} comments", result.size());
         return result;
     }
 }

@@ -14,9 +14,16 @@ public class PublicCommentController {
     private final PublicCommentService publicCommentService;
 
     @GetMapping("/{eventId}/comments")
-    public List<CommentDto> getAllComments(@PathVariable int eventId,
+    public List<CommentDto> getComments(@PathVariable int eventId,
                                            @RequestParam(defaultValue = "0") int from,
                                            @RequestParam(defaultValue = "10") int size) {
-        return publicCommentService.getAllComments(eventId, from, size);
+        return publicCommentService.getComments(eventId, from, size);
+    }
+
+    @GetMapping("/comments")
+    public List<CommentDto> getAllComments(
+                                        @RequestParam(defaultValue = "0") int from,
+                                        @RequestParam(defaultValue = "10") int size) {
+        return publicCommentService.getAllComments(from, size);
     }
 }

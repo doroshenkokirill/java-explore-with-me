@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.comments.repository.CommentRepository;
-import ru.practicum.exeptions.BadRequestException;
+import ru.practicum.exeptions.NotFoundException;
 
 @Slf4j
 @Service
@@ -15,7 +15,7 @@ public class AdminCommentServiceImpl implements AdminCommentService {
     @Override
     public void deleteComment(int id) {
         if (!commentRepository.existsById(id)) {
-            throw new BadRequestException("Comment with id " + id + " dont exists");
+            throw new NotFoundException("Comment with id " + id + " dont exists");
         }
         commentRepository.deleteById(id);
         log.info("Deleted comment with id {}", id);
