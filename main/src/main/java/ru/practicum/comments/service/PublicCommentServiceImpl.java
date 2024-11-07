@@ -12,7 +12,6 @@ import ru.practicum.comments.repository.CommentRepository;
 import ru.practicum.events.repository.EventRepository;
 import ru.practicum.exeptions.NotFoundException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -25,21 +24,17 @@ public class PublicCommentServiceImpl implements PublicCommentService {
     @Override
     public List<CommentDto> getComments(int eventId, int from, int size) {
         if (!eventRepository.existsById(eventId)) {
-            throw new NotFoundException("Event with id " + eventId + " dont exists");
+            throw new NotFoundException("Event with id " + eventId + " doesn't exist");
         }
 
         Pageable pageable = PageRequest.of(from / size, size);
-        List<Comment> commentList = commentRepository.findAll(pageable).stream().toList();
-        List<Comment> filteredList = new ArrayList<>();
-        for (Comment comment : commentList) {
-            if (comment.getEvent().getId() == eventId) {
-                filteredList.add(comment);
-            }
-        }
-        List<CommentDto> result = filteredList.stream().map(CommentMapper::toCommentDto).toList();
-        log.info("Founded {} comments for eventId {}", result.size(), eventId);
+        List<Comment> commentList = commentRepository.findAllByEventId(eventId, pageable);
+
+        List<CommentDto> result = commentList.stream().map(CommentMapper::toCommentDto).toList();
+        log.info("Found {} comments for eventId {}", result.size(), eventId);
         return result;
     }
+
 
     @Override
     public List<CommentDto> getAllComments(int from, int size) {
