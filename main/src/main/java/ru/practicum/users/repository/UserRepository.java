@@ -5,4 +5,6 @@ import ru.practicum.users.model.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     boolean existsUserByEmail(String email);
+
+    User getUserById(int userId);
 }
